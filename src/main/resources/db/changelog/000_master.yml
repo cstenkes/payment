@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: classpath:/db/changelog/001_schema.yml
+      relativeToChangelogFile: false
+  - include:
+      file: classpath:/db/changelog/002_init_data.yml
+      relativeToChangelogFile: false

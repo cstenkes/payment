@@ -1,0 +1,46 @@
+application:
+  name: Payment
+  version: 1.0
+spring:
+  threads:
+    virtual:
+      enabled: true
+  liquibase:
+#    contexts: local
+    change-log: classpath:db/changelog/000_master.yml
+    url: ${PG_JDBC_URL:jdbc:postgresql://localhost:5432/payment-db}
+    user: ${PG_JDBC_USERNAME:postgres}
+    password: ${PG_JDBC_PASSWORD:changeMe}
+    enabled: true
+  datasource:
+    url: ${PG_JDBC_URL:jdbc:postgresql://localhost:5432/payment-db}
+    username: ${PG_JDBC_USERNAME:postgres}
+    password: ${PG_JDBC_PASSWORD:changeMe}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  output:
+    ansi:
+      enabled: always
+springdoc:
+  default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+management:
+  endpoints:
+    env:
+      show-values: ALWAYS
+    web:
+      exposure:
+        include: "health,info,configprops"
+server:
+  error:
+    include-message: always
+payment:
+  init: true
+  

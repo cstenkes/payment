@@ -1,0 +1,316 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Csaba Tenkes
+      changes:
+        - createTable:
+            tableName: customer
+            remarks: Benefit product details
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  remarks: own id of customer
+                  autoIncrement: true
+                  startWith: 1000
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: customer_pkey
+              - column:
+                  name: last_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                  remarks: last name
+              - column:
+                  name: first_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                  remarks: first name
+              - column:
+                  name: address
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                  remarks: address
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: Created date
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: Created user
+              - column:
+                  name: modified_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: modified date
+              - column:
+                  name: modified_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: modified user
+        - createTable:
+            tableName: account
+            remarks: Account
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  startWith: 1000
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: account_pkey
+                  remarks: Primary key of Account
+              - column:
+                  name: account_number
+                  type: VARCHAR(255)
+                  remarks: account number
+              - column:
+                  name: account_type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                  remarks: account type
+              - column:
+                  name: currency
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+                  remarks: currency
+              - column:
+                  name: balance
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                  remarks: balance
+                  defaultValue: 0
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                  remarks: customer of the account
+              - column:
+                  name: card_id
+                  type: BIGINT
+                  remarks: card for the account
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: Created date
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: Created user
+              - column:
+                  name: modified_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: modified date
+              - column:
+                  name: modified_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: modified user
+        - createTable:
+            tableName: transaction
+            remarks: Transactions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  startWith: 1000
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: transaction_pkey
+                  remarks: Benefit exchange id
+              - column:
+                  name: transaction_date
+                  type: Date
+                  remarks: transaction date
+              - column:
+                  name: from_account_id
+                  type: BIGINT
+                  remarks: from account
+              - column:
+                  name: to_account_id
+                  type: BIGINT
+                  remarks: to account
+              - column:
+                  name: amount
+                  type: BIGINT
+                  remarks: amount
+              - column:
+                  name: status
+                  type: VARCHAR(10)
+                  remarks: Status of the transaction - STARTED,A2_ADDED, A1_REMOVED. FAILED, SUCCESS
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: Created date
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: Created user
+              - column:
+                  name: modified_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: modified date
+              - column:
+                  name: modified_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: modified user
+        - createTable:
+            tableName: card
+            remarks: card
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  startWith: 1000
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: card_pkey
+                  remarks: Benefit exchange id
+              - column:
+                  name: card_number
+                  type: VARCHAR(255)
+                  remarks: card number
+              - column:
+                  name: expiration_date
+                  type: DATE
+                  remarks: Discounted sale price
+              - column:
+                  name: ccv_code
+                  type: integer
+                  remarks: ccv code
+              - column:
+                  name: account_id
+                  type: BIGINT
+                  remarks: account of the card
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  remarks: customer of the card
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: Created date
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: Created user
+              - column:
+                  name: modified_date
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  remarks: modified date
+              - column:
+                  name: modified_by
+                  type: VARCHAR(10)
+                  defaultValue: SYSTEM
+                  remarks: modified user
+  - changeSet:
+      id: 2
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: transaction_from_account_id_fkey
+        baseColumnNames: from_account_id
+        baseTableName: transaction
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: account
+        validate: true
+  - changeSet:
+      id: 3
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: transaction_to_account_id_fkey
+        baseColumnNames: to_account_id
+        baseTableName: transaction
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: account
+        validate: true
+  - changeSet:
+      id: 4
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: card_account_id_fkey
+        baseColumnNames: account_id
+        baseTableName: card
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: account
+        validate: true
+  - changeSet:
+      id: 5
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: card_customer_id_fkey
+        baseColumnNames: customer_id
+        baseTableName: card
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: customer
+        validate: true
+  - changeSet:
+      id: 6
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: account_customer_id_fkey
+        baseColumnNames: customer_id
+        baseTableName: account
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: account
+        validate: true
+  - changeSet:
+      id: 7
+      author: Csaba Tenkes
+      addForeignKeyConstraint:
+        constraintName: account_card_id_fkey
+        baseColumnNames: card_id
+        baseTableName: account
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: card
+        validate: true

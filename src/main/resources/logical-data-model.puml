@@ -1,0 +1,53 @@
+@startuml
+
+entity "Account" as account {
+  *id : BigInt
+  --
+  accountNumber : String
+  --
+  accountType : String
+  --
+  currency : Date
+}
+
+entity "Customer" as customer {
+  *id: BigInt
+  --
+  *lastName: String
+  --
+  *firstName : String
+  --
+  *address : String
+}
+
+entity "Card" as card {
+  *id : BigInt
+  --
+  *cardNumber : BigInt
+  --
+  *expirationDate : Date
+  --
+  *ccvCode : Integer
+}
+
+entity "Transaction" as transaction {
+  *id : BigInt
+  --
+  transactionDate : Date
+  --
+  fromAccount : BigInt
+  --
+  toAccount : Bigint
+  --
+  amount : Integer
+}
+
+account ||--|| customer
+
+account ||--|{ transaction
+
+account ||--|{ card
+
+customer ||--|{ card
+
+@enduml

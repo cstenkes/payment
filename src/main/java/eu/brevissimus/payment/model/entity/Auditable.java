@@ -1,4 +1,4 @@
-package eu.brevissimus.payment.model;
+package eu.brevissimus.payment.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

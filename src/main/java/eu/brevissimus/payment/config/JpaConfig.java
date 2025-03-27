@@ -25,7 +25,7 @@ class JpaConfig {
 
     LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
     factory.setJpaVendorAdapter(vendorAdapter);
-    factory.setPackagesToScan("eu.brevissimus.payment.model");
+    factory.setPackagesToScan("eu.brevissimus.payment.model.entity");
     factory.setDataSource(dataSource);
 
 	// is this the default? if not use this: 

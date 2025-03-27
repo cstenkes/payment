@@ -1,11 +1,16 @@
 package eu.brevissimus.payment.controller;
 
-import eu.brevissimus.payment.model.Transaction;
+import eu.brevissimus.payment.model.dto.AccountBalanceDto;
+import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,7 +21,6 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentService paymentService;
-
 
     @GetMapping("/accounts/{accountNumber}/transactions")
     public List<Transaction> getAllTransactionsOfAccount(@PathVariable String accountNumber) {
@@ -30,6 +34,20 @@ public class PaymentController {
         List<Transaction> transactions = paymentService.getAllTransactionsByCardNumber(cardNumber);
         log.info("all transactions of card {} : {}", cardNumber, transactions );
         return transactions;
+    }
+
+    @GetMapping("/accounts/{accountNumber}/balance")
+    public AccountBalanceDto getBalanceOfAccount(@PathVariable String accountNumber) {
+        AccountBalanceDto sum = paymentService.getBalanceOfAccount(accountNumber);
+        log.info("balance of account {} : {}", accountNumber, sum );
+        return sum;
+    }
+
+    @GetMapping("/cards/{cardNumber}/balance")
+    public AccountBalanceDto getBalanceOfCard(@PathVariable String cardNumber) {
+        AccountBalanceDto sum = paymentService.getBalanceOfCard(cardNumber);
+        log.info("balance of card {} : {}", cardNumber, sum );
+        return sum;
     }
 
     // need to specify 2 accounts
@@ -49,5 +67,4 @@ public class PaymentController {
         log.info("all transactions of card {} : {}", cardNumber, transactions );
         return transactions;
     }
-
 }

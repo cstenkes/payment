@@ -1,6 +1,6 @@
 package eu.brevissimus.payment.repository;
 
-import eu.brevissimus.payment.model.Transaction;
+import eu.brevissimus.payment.model.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

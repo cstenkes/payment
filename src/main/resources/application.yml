@@ -1,6 +1,6 @@
 application:
   name: Payment
-  version: 1.0
+  version: 1
   timezone: ${TZ:CET}
 spring:
   threads:

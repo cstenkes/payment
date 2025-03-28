@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("payment/api")
+@RequestMapping("/payment/api/v${application.version}")
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "payment", description = "all payment endpoints")

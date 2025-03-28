@@ -155,7 +155,7 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(10)
-                  remarks: Status of the transaction - STARTED,A2_ADDED, A1_REMOVED. FAILED, SUCCESS
+                  remarks: Status of the transaction - STARTED,A1_REMOVED, A2_ADDED, FAILED, FINISHED_SUCCESS
               - column:
                   name: created_date
                   type: TIMESTAMP

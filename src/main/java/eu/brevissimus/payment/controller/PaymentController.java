@@ -2,6 +2,7 @@ package eu.brevissimus.payment.controller;
 
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,21 +63,17 @@ public class PaymentController {
         return accountBalances;
     }
 
-    // need to specify 2 accounts
     @PostMapping("/accounts/transfer/account2account")
-    public List<Transaction> transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
-        String cardNumber = null;
-        List<Transaction> transactions = paymentService.getAllTransactionsByCardNumber(cardNumber);
-        log.info("all transactions of card {} : {}", cardNumber, transactions );
-        return transactions;
+    public Transaction transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
+        Transaction transaction = paymentService.doAccountMoneyTransfer(transfer);
+        log.info("money fransfer transaction was done via acount to account {} : {}", transfer, transaction );
+        return transaction;
     }
 
-    // need to specify card,account
     @PostMapping("/cards/transfer/card2account")
-    public List<Transaction> transferMoneyByCardToAccount() {
-        String cardNumber = null;
-        List<Transaction> transactions = paymentService.getAllTransactionsByCardNumber(cardNumber);
-        log.info("all transactions of card {} : {}", cardNumber, transactions );
-        return transactions;
+    public Transaction transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
+        Transaction transaction = paymentService.doCardMoneyTransfer(transfer);
+        log.info("money fransfer transaction was done via card to account {} : {}", transfer, transaction );
+        return transaction;
     }
 }

@@ -24,4 +24,3 @@ databaseChangeLog:
 
               insert into transaction(id, transaction_date, from_account_id, to_account_id, amount, status) values (1, '2025-03-04', 1, 5, 200,'SUCCESS');
               insert into transaction(id, transaction_date, from_account_id, to_account_id, amount, status) values (2, '2025-03-15', 5, 1, 100,'STARTED');
-

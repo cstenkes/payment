@@ -1,6 +1,7 @@
 package eu.brevissimus.payment.controller;
 
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
+import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -52,9 +55,16 @@ public class PaymentController {
         return sum;
     }
 
+    @GetMapping("/customers/balance")
+    public List<AccountBalanceDto> getAllBalanceOfCustomer(@RequestParam("fname") String firstName, @RequestParam("lname") String lastName) {
+        List<AccountBalanceDto> accountBalances = paymentService.getAllBalanceOfCustomer(firstName, lastName);
+        log.info("balance of customer {} {}: {}", firstName, lastName, accountBalances );
+        return accountBalances;
+    }
+
     // need to specify 2 accounts
     @PostMapping("/accounts/transfer/account2account")
-    public List<Transaction> transferMoneyByAccountToAccount() {
+    public List<Transaction> transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
         String cardNumber = null;
         List<Transaction> transactions = paymentService.getAllTransactionsByCardNumber(cardNumber);
         log.info("all transactions of card {} : {}", cardNumber, transactions );

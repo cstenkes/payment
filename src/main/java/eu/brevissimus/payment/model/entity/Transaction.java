@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +32,7 @@ public class Transaction extends Auditable {
   private Long id;
 
   @Column(name = "transaction_date")
-  private Date transactionDate;
+  private LocalDateTime transactionDate;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "from_account_id", referencedColumnName = "id")

@@ -16,3 +16,12 @@ http://localhost:8080/swagger-ui/index.html
 ## api doc - downloadable
 http://localhost:8080/v3/api-docs.yaml
 
+## info of the application
+http://localhost:8080/actuator/info
+
+## health check the application
+http://localhost:8080/actuator/health
+
+## base path of the allpication
+http://localhost:8080/payment/api/v1/
+

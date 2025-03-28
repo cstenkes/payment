@@ -47,6 +47,9 @@ public class Account extends Auditable {
   @Column(name = "balance")
   private BigInteger balance;
 
+  @Column(name = "active")
+  private boolean active;
+
   @ManyToOne
   @JoinColumn(name = "customer_id")
   Customer customer;

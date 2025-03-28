@@ -1,9 +1,13 @@
 package eu.brevissimus.payment.service;
 
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
+import eu.brevissimus.payment.model.dto.AccountDto;
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.CardDto;
 import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.CustomerDto;
 import eu.brevissimus.payment.model.entity.Account;
+import eu.brevissimus.payment.model.entity.Card;
 import eu.brevissimus.payment.model.entity.Customer;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.repository.AccountRepository;
@@ -53,7 +57,7 @@ public class PaymentService {
 
 
     @Transactional
-    public Transaction doAccountMoneyTransfer(AccountMoneyTransferDto transfer) {
+    public Transaction transferAccountMoney(AccountMoneyTransferDto transfer) {
         // Step 1 - id - autoincrement
         Transaction transaction = new Transaction();
         transaction.setTransactionDate(transfer.issueDate());
@@ -65,6 +69,8 @@ public class PaymentService {
         transaction.setStatus("STARTED");
         transactionRepository.save(transaction);
 
+        //step 2-3 should be handled together
+
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
@@ -79,12 +85,11 @@ public class PaymentService {
 
         // Step 4 Update transaction
         transaction.setStatus("FINISHED_SUCCESS");
-        transactionRepository.save(transaction);
-        return transaction;
+        return transactionRepository.save(transaction);
     }
 
     @Transactional
-    public Transaction doCardMoneyTransfer(CardMoneyTransferDto transfer) {
+    public Transaction transferCardMoney(CardMoneyTransferDto transfer) {
         // Step 1 - id - autoincrement
         Transaction transaction = new Transaction();
         transaction.setTransactionDate(transfer.issueDate());
@@ -96,6 +101,8 @@ public class PaymentService {
         transaction.setStatus("STARTED");
         transactionRepository.save(transaction);
 
+        //step 2-3 should be handled together
+
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
@@ -110,7 +117,65 @@ public class PaymentService {
 
         // Step 4 Update transaction
         transaction.setStatus("FINISHED_SUCCESS");
-        transactionRepository.save(transaction);
-        return transaction;
+        return transactionRepository.save(transaction);
     }
+
+    @Transactional
+    public Customer createCustomer(CustomerDto customerDto) {
+        Customer customer = new Customer();
+        customer.setFirstName(customerDto.firstName());
+        customer.setLastName(customerDto.lastName());
+        customer.setAddress(customerDto.address());
+        return customerRepository.save(customer);
+    }
+
+    @Transactional
+    public Account createAccount(AccountDto accountDto) {
+        Account account = new Account();
+        account.setAccountNumber(accountDto.accountNumber());
+        account.setAccountType(accountDto.accountType());
+        account.setCurrency(accountDto.currency());
+
+        Customer customer = customerRepository.findByFirstNameAndLastName(accountDto.firstName(),accountDto.lastName());
+        account.setCustomer(customer);
+        return accountRepository.save(account);
+    }
+
+    @Transactional
+    public Card createCard(CardDto cardDto) {
+        Card card = new Card();
+        card.setCardNumber(cardDto.cardNumber());
+        card.setCcvCode(cardDto.ccvCode());
+        card.setExpiry(cardDto.expiry());
+        Customer customer = customerRepository.findByFirstNameAndLastName(cardDto.firstName(),cardDto.lastName());
+        card.setCustomer(customer);
+        Account account = accountRepository.findByAccountNumber(cardDto.accountNumber());
+        card.setAccount(account);
+        return cardRepository.save(card);
+    }
+
+    // logical deletions
+
+    @Transactional
+    public Customer deleteCustomer(CustomerDto customerDto) {
+        Customer customer = customerRepository.findByFirstNameAndLastName(customerDto.firstName(), customerDto.lastName());
+        customer.setActive(false);
+        return customerRepository.save(customer);
+    }
+
+    @Transactional
+    public Account deleteAccount(AccountDto accountDto) {
+        Account account = accountRepository.findByAccountNumber(accountDto.accountNumber());
+        account.setActive(false);
+        return accountRepository.save(account);
+    }
+
+    @Transactional
+    public Card deleteCard(CardDto cardDto) {
+        Card card = cardRepository.findByCardNumber(cardDto.cardNumber());
+        card.setActive(false);
+        return cardRepository.save(card);
+    }
+
+
 }

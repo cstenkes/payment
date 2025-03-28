@@ -17,6 +17,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
@@ -34,7 +36,13 @@ public class Card extends Auditable {
   private String cardNumber;
 
   @Column(name = "ccv_code")
-  private Integer ccv_code;
+  private Integer ccvCode;
+
+  @Column(name = "expiration_date")
+  private LocalDate expiry;
+
+  @Column(name = "active")
+  private boolean active;
 
   @JsonIgnore
   @ManyToOne(cascade = CascadeType.ALL)

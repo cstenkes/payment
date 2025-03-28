@@ -12,4 +12,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     @Query(value = "select c.account from Card c " +
             "where c.cardNumber = :cardNumber")
     Account findAccountByCardNumber(String cardNumber);
+
+    Card findByCardNumber(String cardNumber);
+
 }

@@ -40,6 +40,9 @@ public class Customer extends Auditable {
   @Column(name = "address")
   private String address;
 
+  @Column(name = "active")
+  private boolean active;
+
   @ToString.Exclude
   @JsonIgnore
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)

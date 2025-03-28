@@ -3,6 +3,7 @@ package eu.brevissimus.payment.controller;
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.PaymentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("payment/api")
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "payment", description = "all payment endpoints")
 public class PaymentController {
 
     private final PaymentService paymentService;

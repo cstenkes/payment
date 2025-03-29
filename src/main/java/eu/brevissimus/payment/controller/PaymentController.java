@@ -76,17 +76,17 @@ public class PaymentController {
         return accountBalances;
     }
 
-    @PostMapping("/accounts/transfer/account2account")
+    @PostMapping("/accounts/transfer")
     public Transaction transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
         Transaction transaction = transactionService.transferAccountMoney(transfer);
-        log.info("money fransfer transaction was done via acount to account {} : {}", transfer, transaction );
+        log.info("money fransfer transaction was done via account to account {} : {}", transfer, transaction );
         return transaction;
     }
 
-    @PostMapping("/cards/transfer/card2account")
+    @PostMapping("/cards/transfer")
     public Transaction transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
         Transaction transaction = transactionService.transferCardMoney(transfer);
-        log.info("money fransfer transaction was done via card to account {} : {}", transfer, transaction );
+        log.info("money transfer transaction was done via card to account {} : {}", transfer, transaction );
         return transaction;
     }
 
@@ -110,7 +110,6 @@ public class PaymentController {
         log.info("card created: {}", card );
         return card;
     }
-
 
     @DeleteMapping("/customers")
     public Customer deleteCustomer(@RequestBody CustomerDto customerDto) {

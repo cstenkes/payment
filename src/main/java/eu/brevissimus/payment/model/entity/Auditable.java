@@ -1,9 +1,7 @@
-package eu.brevissimus.payment.model;
+package eu.brevissimus.payment.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
-import java.util.Date;
-
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -15,6 +13,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString()
@@ -24,7 +24,7 @@ public class Auditable {
   @JsonIgnore
   @CreatedDate
   @Column(name = "created_date")
-  private Date createdDate;
+  private LocalDateTime createdDate;
 
   @JsonIgnore
   @CreatedBy
@@ -34,10 +34,10 @@ public class Auditable {
   @JsonIgnore
   @LastModifiedDate
   @Column(name = "modified_date")
-  private Date modifiedDate;
+  private LocalDateTime modifiedDate;
 
   @JsonIgnore
   @LastModifiedBy
   @Column(name = "modified_by")
-  private String modofiedBy ;
+  private String modifiedBy ;
 }

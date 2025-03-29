@@ -1,6 +1,7 @@
 application:
   name: Payment
-  version: 1.0
+  version: 1
+  timezone: ${TZ:CET}
 spring:
   threads:
     virtual:
@@ -32,15 +33,23 @@ springdoc:
     operations-sorter: alpha
     tags-sorter: alpha
 management:
+  info:
+    env:
+      enabled: true
   endpoints:
     env:
       show-values: ALWAYS
     web:
       exposure:
         include: "health,info,configprops"
+info:
+  application:
+    name: payment
+    description: Instant Payment System for Kibit assignment
+    version: 1.0.0
+    release-date: 2025.03.31
+    java-version: ${java.vendor} VM ${java.vendor.version}
 server:
   error:
     include-message: always
-payment:
-  init: true
-  
+

@@ -5,12 +5,12 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: customer
-            remarks: Benefit product details
+            remarks: Customer
             columns:
               - column:
                   name: id
                   type: BIGINT
-                  remarks: own id of customer
+                  remarks: customer id
                   autoIncrement: true
                   startWith: 1000
                   constraints:
@@ -55,6 +55,11 @@ databaseChangeLog:
                   type: VARCHAR(10)
                   defaultValue: SYSTEM
                   remarks: modified user
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  remarks: active
         - createTable:
             tableName: account
             remarks: Account
@@ -68,7 +73,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: account_pkey
-                  remarks: Primary key of Account
+                  remarks: Account id
               - column:
                   name: account_number
                   type: VARCHAR(255)
@@ -103,6 +108,11 @@ databaseChangeLog:
                   type: BIGINT
                   remarks: card for the account
               - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  remarks: active
+              - column:
                   name: created_date
                   type: TIMESTAMP
                   defaultValue: now()
@@ -135,7 +145,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: transaction_pkey
-                  remarks: Benefit exchange id
+                  remarks: Transaction id
               - column:
                   name: transaction_date
                   type: Date
@@ -155,7 +165,7 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(10)
-                  remarks: Status of the transaction - STARTED,A2_ADDED, A1_REMOVED. FAILED, SUCCESS
+                  remarks: Status of the transaction - STARTED,A1_REMOVED, A2_ADDED, FAILED, FINISHED_SUCCESS
               - column:
                   name: created_date
                   type: TIMESTAMP
@@ -189,7 +199,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: card_pkey
-                  remarks: Benefit exchange id
+                  remarks: card id
               - column:
                   name: card_number
                   type: VARCHAR(255)
@@ -197,7 +207,7 @@ databaseChangeLog:
               - column:
                   name: expiration_date
                   type: DATE
-                  remarks: Discounted sale price
+                  remarks: Expiration date
               - column:
                   name: ccv_code
                   type: integer
@@ -206,6 +216,11 @@ databaseChangeLog:
                   name: account_id
                   type: BIGINT
                   remarks: account of the card
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  remarks: active
               - column:
                   name: customer_id
                   type: BIGINT

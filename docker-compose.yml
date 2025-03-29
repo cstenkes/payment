@@ -53,6 +53,7 @@ services:
 #      - PG_JDBC_URL=jdbc:postgresql://postgres:5432/payment-db
 #      - PG_JDBC_USERNAME=postgres
 #      - PG_JDBC_PASSWORD=changeMe
+#      - TZ=CET
 #    depends_on:
 ##      - kafka
 #      - postgres

@@ -31,6 +31,14 @@ public class CardService {
         return cardRepository.save(card);
     }
 
+    // can be modified ccv, expiry date only
+    public Card modifyCard(CardDto cardDto) {
+        Card card = cardRepository.findByCardNumber(cardDto.cardNumber());
+        card.setCcvCode(cardDto.ccvCode());
+        card.setExpiry(cardDto.expiry());
+        return cardRepository.save(card);
+    }
+
     // logical deletions
     @Transactional
     public Card deleteCard(CardDto cardDto) {
@@ -38,5 +46,4 @@ public class CardService {
         card.setActive(false);
         return cardRepository.save(card);
     }
-
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,6 +130,27 @@ public class PaymentController {
     public Card deleteCard(@RequestBody CardDto cardDto) {
         Card card = cardService.deleteCard(cardDto);
         log.info("card deleted: {}", card );
+        return card;
+    }
+
+    @PutMapping("/customers")
+    public Customer modifyCustomer(@RequestBody CustomerDto customerDto) {
+        Customer customer = customerService.modifyCustomer(customerDto);
+        log.info("customer modified: {}", customer );
+        return customer;
+    }
+
+    @PutMapping("/accounts")
+    public Account modifyAccount(@RequestBody AccountDto accountDto) {
+        Account account = accountService.modfiyAccount(accountDto);
+        log.info("account modified: {}", account );
+        return account;
+    }
+
+    @PutMapping("/cards")
+    public Card modifyCard(@RequestBody CardDto cardDto) {
+        Card card = cardService.modifyCard(cardDto);
+        log.info("card modified: {}", card );
         return card;
     }
 

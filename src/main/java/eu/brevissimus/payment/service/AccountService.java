@@ -50,14 +50,20 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    //logical delete
+    // can be modified account type and currency only
+    public Account modfiyAccount(AccountDto accountDto) {
+        Account account = accountRepository.findByAccountNumber(accountDto.accountNumber());
+        account.setAccountType(accountDto.accountType());
+        account.setCurrency(accountDto.currency());
+        return accountRepository.save(account);
+    }
 
+    //logical delete
     @Transactional
     public Account deleteAccount(AccountDto accountDto) {
         Account account = accountRepository.findByAccountNumber(accountDto.accountNumber());
         account.setActive(false);
         return accountRepository.save(account);
     }
-
 
 }

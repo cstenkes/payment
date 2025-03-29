@@ -21,8 +21,14 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    //logical delete
+    // modifing address only
+    public Customer modifyCustomer(CustomerDto customerDto) {
+        Customer customer = customerRepository.findByFirstNameAndLastName(customerDto.firstName(),customerDto.lastName());
+        customer.setAddress(customerDto.address());
+        return customerRepository.save(customer);
+    }
 
+    //logical delete
     @Transactional
     public Customer deleteCustomer(CustomerDto customerDto) {
         Customer customer = customerRepository.findByFirstNameAndLastName(customerDto.firstName(), customerDto.lastName());

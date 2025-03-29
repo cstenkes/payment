@@ -10,10 +10,10 @@ mvn clean test
 ## Run project and test (unit and integration tests)
 mvn clean test spring-boot:run
 
-## api doc - swagger
+## api doc - swagger ui
 http://localhost:8080/swagger-ui/index.html
 
-## api doc - downloadable
+## api doc - downloadable yaml file
 http://localhost:8080/v3/api-docs.yaml
 
 ## info of the application
@@ -22,6 +22,16 @@ http://localhost:8080/actuator/info
 ## health check the application
 http://localhost:8080/actuator/health
 
-## base path of the allpication
+## health check the application
+http://localhost:8080/actuator/configprops
+
+## base path of the application
 http://localhost:8080/payment/api/v1/
 
+# Dockerized run:
+- mvn clean install
+- commenting back the app part in the docker-compose.yml
+- docker-compose up -d
+
+# scaling using kuberentes
+todo: creating a pod to be scaled up/down

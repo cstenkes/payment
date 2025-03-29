@@ -55,6 +55,15 @@ public class CardController {
         return transactions;
     }
 
+    @Operation(
+            summary = "Money transfer by card to account with the same currency",
+            description = "Money transfer by card to account with the same currency")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Card to Account money transfer was successful")
+            })
     @PostMapping("/transfer")
     public Transaction transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
         Transaction transaction = transactionService.transferCardMoney(transfer);
@@ -62,9 +71,19 @@ public class CardController {
         return transaction;
     }
 
-
+    @Operation(
+            summary = "Get balance of card by card number",
+            description = "Retrieves balance of card by card number")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Balance of card by card number was successful")
+            })
     @GetMapping("/{cardNumber}/balance")
-    public AccountBalanceDto getBalanceOfCard(@PathVariable String cardNumber) {
+    public AccountBalanceDto getBalanceOfCard(
+            @Parameter(description = "Card number", example = "12345678-12345678-12345678")
+            @PathVariable String cardNumber) {
         AccountBalanceDto accountBalance = accountService.getBalanceOfCard(cardNumber);
         log.info("balance of card {} : {}", cardNumber, accountBalance );
         return accountBalance;
@@ -72,6 +91,15 @@ public class CardController {
 
     // trivial controller methods:
 
+    @Operation(
+            summary = "Card creation for an existing customer for a given account",
+            description = "Card creation for an existing customer for a given account")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Card creation for an existing customer for a given account was successful")
+            })
     @PostMapping("/")
     public Card createCard(@RequestBody CardDto cardDto) {
         Card card = cardService.createCard(cardDto);
@@ -79,6 +107,15 @@ public class CardController {
         return card;
     }
 
+    @Operation(
+            summary = "Existing card modification",
+            description = "Existing card modification")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Existing card modification was successful")
+            })
     @PutMapping("/")
     public Card modifyCard(@RequestBody CardDto cardDto) {
         Card card = cardService.modifyCard(cardDto);
@@ -86,6 +123,15 @@ public class CardController {
         return card;
     }
 
+    @Operation(
+            summary = "Existing card deletion (only logical)",
+            description = "Existing card deletion (only logical)")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Existing card deletion (only logical) was successful")
+            })
     @DeleteMapping("/")
     public Card deleteCard(@RequestBody CardDto cardDto) {
         Card card = cardService.deleteCard(cardDto);

@@ -120,13 +120,13 @@ public class AccountController {
     }
 
     @Operation(
-            summary = "Existing Account deletion (only logical)",
-            description = "Existing Account deletion (only logical)")
+            summary = "Existing account deletion (only logical)",
+            description = "Existing account deletion (only logical)")
     @ApiResponses(
             value = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Existing Account deletion (only logical) was successful")
+                            description = "Existing account deletion (only logical) was successful")
             })
     @DeleteMapping("/")
     public Account deleteAccount(@RequestBody AccountDto accountDto) {

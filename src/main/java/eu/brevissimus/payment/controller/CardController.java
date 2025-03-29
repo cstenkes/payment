@@ -84,9 +84,9 @@ public class CardController {
     public AccountBalanceDto getBalanceOfCard(
             @Parameter(description = "Card number", example = "12345678-12345678-12345678")
             @PathVariable String cardNumber) {
-        AccountBalanceDto accountBalance = accountService.getBalanceOfCard(cardNumber);
-        log.info("balance of card {} : {}", cardNumber, accountBalance );
-        return accountBalance;
+        AccountBalanceDto accountBalanceDto = accountService.getBalanceOfCard(cardNumber);
+        log.info("balance of card {} : {}", cardNumber, accountBalanceDto );
+        return accountBalanceDto;
     }
 
     // trivial controller methods:

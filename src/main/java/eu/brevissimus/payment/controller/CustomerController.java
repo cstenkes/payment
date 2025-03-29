@@ -48,9 +48,9 @@ public class CustomerController {
             @RequestParam("fname") String firstName,
             @Parameter(description = "Last name", example = "Doe")
             @RequestParam("lname") String lastName) {
-        List<AccountBalanceDto> accountBalances = accountService.getAllBalanceOfCustomer(firstName, lastName);
-        log.info("balance of customer {} {}: {}", firstName, lastName, accountBalances );
-        return accountBalances;
+        List<AccountBalanceDto> accountBalancesDto = accountService.getAllBalanceOfCustomer(firstName, lastName);
+        log.info("balance of customer {} {}: {}", firstName, lastName, accountBalancesDto );
+        return accountBalancesDto;
     }
 
     // trivial controller methods:

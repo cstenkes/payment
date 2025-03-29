@@ -80,9 +80,9 @@ public class AccountController {
     @GetMapping("/{accountNumber}/balance")
     public AccountBalanceDto getBalanceOfAccount(@Parameter(description = "Account number", example = "12345678A")
                                                  @PathVariable String accountNumber) {
-        AccountBalanceDto accountBalance = accountService.getBalanceOfAccount(accountNumber);
-        log.info("balance of account {} : {}", accountNumber, accountBalance );
-        return accountBalance;
+        AccountBalanceDto accountBalanceDto = accountService.getBalanceOfAccount(accountNumber);
+        log.info("balance of account {} : {}", accountNumber, accountBalanceDto );
+        return accountBalanceDto;
     }
 
     // trivial controller methods:

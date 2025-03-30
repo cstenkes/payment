@@ -86,7 +86,7 @@ databaseChangeLog:
                   remarks: account type
               - column:
                   name: currency
-                  type: VARCHAR(25)
+                  type: VARCHAR(3)
                   constraints:
                     nullable: false
                   remarks: currency
@@ -96,7 +96,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   remarks: balance
-                  defaultValue: 0
+                  defaultValueNumeric: "0"
               - column:
                   name: customer_id
                   type: BIGINT
@@ -329,3 +329,10 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: card
         validate: true
+  - changeSet:
+      id: 8
+      author: Csaba Tenkes
+      addUniqueConstraint:
+        constraintName: customer_first_name_last_name_unique
+        columnNames: first_name, last_name
+        tableName: customer

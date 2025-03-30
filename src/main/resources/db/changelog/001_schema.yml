@@ -58,7 +58,7 @@ databaseChangeLog:
               - column:
                   name: active
                   type: BOOLEAN
-                  defaultValue: true
+                  defaultValueBoolean: true
                   remarks: active
         - createTable:
             tableName: account
@@ -92,7 +92,7 @@ databaseChangeLog:
                   remarks: currency
               - column:
                   name: balance
-                  type: BIGINT
+                  type: NUMERIC
                   constraints:
                     nullable: false
                   remarks: balance
@@ -110,7 +110,7 @@ databaseChangeLog:
               - column:
                   name: active
                   type: BOOLEAN
-                  defaultValue: true
+                  defaultValueBoolean: true
                   remarks: active
               - column:
                   name: created_date
@@ -160,7 +160,7 @@ databaseChangeLog:
                   remarks: to account
               - column:
                   name: amount
-                  type: BIGINT
+                  type: NUMERIC
                   remarks: amount
               - column:
                   name: status
@@ -215,11 +215,11 @@ databaseChangeLog:
               - column:
                   name: account_id
                   type: BIGINT
-                  remarks: account of the card
+                  remarks: Account of the card
               - column:
                   name: active
                   type: BOOLEAN
-                  defaultValue: true
+                  defaultValueBoolean: true
                   remarks: active
               - column:
                   name: customer_id

@@ -1,5 +1,6 @@
 application:
   name: Payment
+  description: Instant Payment System for Kibit assignment
   version: 1
   timezone: ${TZ:CET}
 spring:
@@ -37,18 +38,17 @@ management:
     env:
       enabled: true
   endpoints:
-    env:
-      show-values: ALWAYS
     web:
       exposure:
         include: "health,info,configprops"
 info:
   application:
-    name: payment
-    description: Instant Payment System for Kibit assignment
-    version: 1.0.0
+    name: ${application.name}
+    description: ${application.description}
+    version: '@project.version@'
     release-date: 2025.03.31
     java-version: ${java.vendor} VM ${java.vendor.version}
+    spring-boot-version: '@project.parent.version@'
 server:
   error:
     include-message: always

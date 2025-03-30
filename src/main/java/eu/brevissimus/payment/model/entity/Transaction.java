@@ -46,5 +46,5 @@ public class Transaction extends Auditable {
   private BigDecimal amount;
 
   @Column(name = "status")
-  private String status;
+  private TransactionStatus status;
 }

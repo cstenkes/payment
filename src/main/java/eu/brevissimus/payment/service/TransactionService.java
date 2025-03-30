@@ -52,7 +52,7 @@ public class TransactionService {
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus(TransactionStatus.STARTED.name());
+        transaction.setStatus(TransactionStatus.STARTED);
         transactionRepository.save(transaction);
 
         //step 2-3 should be handled together
@@ -60,17 +60,17 @@ public class TransactionService {
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
-        transaction.setStatus(TransactionStatus.A_1_REMOVED.name());
+        transaction.setStatus(TransactionStatus.A_1_REMOVED);
         transactionRepository.save(transaction);
 
         // Step 3 Update balance2
         toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
         accountRepository.save(toAccount);
-        transaction.setStatus(TransactionStatus.A_2_ADDED.name());
+        transaction.setStatus(TransactionStatus.A_2_ADDED);
         transactionRepository.save(transaction);
 
         // Step 4 Update transaction
-        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS.name());
+        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
         return transactionRepository.save(transaction);
     }
 
@@ -86,7 +86,7 @@ public class TransactionService {
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus(TransactionStatus.STARTED.name());
+        transaction.setStatus(TransactionStatus.STARTED);
         transactionRepository.save(transaction);
 
         //step 2-3 should be handled together
@@ -94,17 +94,17 @@ public class TransactionService {
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
-        transaction.setStatus(TransactionStatus.A_1_REMOVED.name());
+        transaction.setStatus(TransactionStatus.A_1_REMOVED);
         transactionRepository.save(transaction);
 
         // Step 3 Update balance2
         toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
         accountRepository.save(toAccount);
-        transaction.setStatus(TransactionStatus.A_2_ADDED.name());
+        transaction.setStatus(TransactionStatus.A_2_ADDED);
         transactionRepository.save(transaction);
 
         // Step 4 Update transaction
-        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS.name());
+        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
         return transactionRepository.save(transaction);
     }
 }

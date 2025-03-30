@@ -248,91 +248,109 @@ databaseChangeLog:
   - changeSet:
       id: 2
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: transaction_from_account_id_fkey
-        baseColumnNames: from_account_id
-        baseTableName: transaction
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: transaction_from_account_id_fkey
+            baseColumnNames: from_account_id
+            baseTableName: transaction
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 3
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: transaction_to_account_id_fkey
-        baseColumnNames: to_account_id
-        baseTableName: transaction
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: transaction_to_account_id_fkey
+            baseColumnNames: to_account_id
+            baseTableName: transaction
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 4
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: card_account_id_fkey
-        baseColumnNames: account_id
-        baseTableName: card
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: card_account_id_fkey
+            baseColumnNames: account_id
+            baseTableName: card
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 5
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: card_customer_id_fkey
-        baseColumnNames: customer_id
-        baseTableName: card
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: customer
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: card_customer_id_fkey
+            baseColumnNames: customer_id
+            baseTableName: card
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: customer
+            validate: true
   - changeSet:
       id: 6
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: account_customer_id_fkey
-        baseColumnNames: customer_id
-        baseTableName: account
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: account_customer_id_fkey
+            baseColumnNames: customer_id
+            baseTableName: account
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 7
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: account_card_id_fkey
-        baseColumnNames: card_id
-        baseTableName: account
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: card
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: account_card_id_fkey
+            baseColumnNames: card_id
+            baseTableName: account
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: card
+            validate: true
   - changeSet:
       id: 8
       author: Csaba Tenkes
-      addUniqueConstraint:
-        constraintName: customer_first_name_last_name_unique
-        columnNames: first_name, last_name
-        tableName: customer
+      changes:
+        - addUniqueConstraint:
+            constraintName: customer_first_name_last_name_unique
+            columnNames: first_name, last_name
+            tableName: customer
+            validate: true
+# Works only in liquibase Pro, license is needed
+#  - changeSet:
+#      id: 9
+#      author: Csaba Tenkes
+#      changes:
+#        - addCheckConstraint:
+#            constraintName: transaction_status_check
+#            constraintBody: (status = 'STARTED' OR status = 'A1_REMOVED' or status = 'A2_ADDED' or status='FAILED' or status='FINISHED_SUCCESS')
+#            tableName: transaction
+#            validate: true

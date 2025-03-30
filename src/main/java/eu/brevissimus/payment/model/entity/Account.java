@@ -2,7 +2,7 @@ package eu.brevissimus.payment.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -45,7 +45,7 @@ public class Account extends Auditable {
   private String currency;
 
   @Column(name = "balance")
-  private BigInteger balance;
+  private BigDecimal balance;
 
   @Column(name = "active")
   private boolean active;

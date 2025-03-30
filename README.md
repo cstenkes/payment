@@ -4,6 +4,11 @@ Instant Payment System based on specification of Kibit home assignment defined b
 ## Run project
 mvn spring-boot:run
 
+or
+
+target> java -jar payment-0.0.1-SNAPSHOT.jar
+
+
 ## Run test
 mvn clean test
 
@@ -33,5 +38,7 @@ http://localhost:8080/payment/api/v1/
 - commenting back the app part in the docker-compose.yml
 - docker-compose up -d
 
-# scaling using kuberentes
-todo: creating a pod to be scaled up/down
+# scaling using kubernetes
+kubectl apply -f k8s.yml
+
+todo: need to test

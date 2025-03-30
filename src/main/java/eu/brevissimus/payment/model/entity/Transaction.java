@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -43,7 +43,7 @@ public class Transaction extends Auditable {
   private Account toAccount;
 
   @Column(name = "amount")
-  private BigInteger amount;
+  private BigDecimal amount;
 
   @Column(name = "status")
   private String status;

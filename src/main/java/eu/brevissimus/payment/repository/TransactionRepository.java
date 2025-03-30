@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface  TransactionRepository extends JpaRepository<Transaction, Long> {
@@ -14,13 +15,13 @@ public interface  TransactionRepository extends JpaRepository<Transaction, Long>
     @Query(value = "select t from Transaction t " +
             "left join fetch t.fromAccount a " +
             "left join fetch t.toAccount b where a.accountNumber = :accountNumber or b.accountNumber = :accountNumber")
-    List<Transaction> findTransactionsByAccountNumber(@Param("accountNumber") String accountNumber);
+    Optional<List<Transaction>> findTransactionsByAccountNumber(@Param("accountNumber") String accountNumber);
 
     @Query(value = "select t from Transaction t " +
             "left join fetch t.fromAccount a " +
             "left join fetch t.toAccount b " +
             "where a.accountNumber = (select c.account.accountNumber from Card c where c.cardNumber= :cardNumber) " +
             "or b.accountNumber = (select c.account.accountNumber from Card c where c.cardNumber= :cardNumber)")
-    List<Transaction> findTransactionsByCardNumber(@Param("cardNumber") String cardNumber);
+    Optional<List<Transaction>> findTransactionsByCardNumber(@Param("cardNumber") String cardNumber);
 
 }

@@ -1,9 +1,11 @@
 package eu.brevissimus.payment.service;
 
+import eu.brevissimus.payment.exception.NotFoundException;
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
 import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
 import eu.brevissimus.payment.model.entity.Account;
 import eu.brevissimus.payment.model.entity.Transaction;
+import eu.brevissimus.payment.model.entity.TransactionStatus;
 import eu.brevissimus.payment.repository.AccountRepository;
 import eu.brevissimus.payment.repository.CardRepository;
 import eu.brevissimus.payment.repository.TransactionRepository;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static eu.brevissimus.payment.exception.ErrorCode.ACCOUNT_NOT_FOUND;
+import static eu.brevissimus.payment.exception.ErrorCode.CARD_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -22,11 +27,14 @@ public class TransactionService {
     private final CardRepository cardRepository;
 
     public List<Transaction> getAllTransactionsByAccountNumber(String accountNumber)  {
-        return transactionRepository.findTransactionsByAccountNumber(accountNumber);
+        return transactionRepository.findTransactionsByAccountNumber(accountNumber)
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + accountNumber));
     }
 
     public List<Transaction> getAllTransactionsByCardNumber(String cardNumber)  {
-        return transactionRepository.findTransactionsByCardNumber(cardNumber);
+        return transactionRepository.findTransactionsByCardNumber(cardNumber)
+                .orElseThrow(() -> new NotFoundException(CARD_NOT_FOUND, "Card number: " + cardNumber));
+
     }
 
     @Transactional
@@ -34,12 +42,17 @@ public class TransactionService {
         // Step 1 - id - autoincrement
         Transaction transaction = new Transaction();
         transaction.setTransactionDate(transfer.issueDate());
-        Account fromAccount = accountRepository.findByAccountNumber(transfer.fromAccountNumber());
-        Account toAccount = accountRepository.findByAccountNumber(transfer.toAccountNumber());
+
+        Account fromAccount = accountRepository.findByAccountNumber(transfer.fromAccountNumber())
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + transfer.fromAccountNumber()));
+
+        Account toAccount = accountRepository.findByAccountNumber(transfer.toAccountNumber())
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + transfer.toAccountNumber()));
+
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus("STARTED");
+        transaction.setStatus(TransactionStatus.STARTED);
         transactionRepository.save(transaction);
 
         //step 2-3 should be handled together
@@ -47,17 +60,17 @@ public class TransactionService {
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
-        transaction.setStatus("A1_REMOVED");
+        transaction.setStatus(TransactionStatus.A_1_REMOVED);
         transactionRepository.save(transaction);
 
         // Step 3 Update balance2
         toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
         accountRepository.save(toAccount);
-        transaction.setStatus("A2_ADDED");
+        transaction.setStatus(TransactionStatus.A_2_ADDED);
         transactionRepository.save(transaction);
 
         // Step 4 Update transaction
-        transaction.setStatus("FINISHED_SUCCESS");
+        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
         return transactionRepository.save(transaction);
     }
 
@@ -66,12 +79,14 @@ public class TransactionService {
         // Step 1 - id - autoincrement
         Transaction transaction = new Transaction();
         transaction.setTransactionDate(transfer.issueDate());
-        Account fromAccount = cardRepository.findAccountByCardNumber(transfer.fromCardNumber());
-        Account toAccount = accountRepository.findByAccountNumber(transfer.toAccountNumber());
+        Account fromAccount = cardRepository.findAccountByCardNumber(transfer.fromCardNumber())
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "cardNumber: " + transfer.fromCardNumber()));
+        Account toAccount = accountRepository.findByAccountNumber(transfer.toAccountNumber())
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + transfer.toAccountNumber()));
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus("STARTED");
+        transaction.setStatus(TransactionStatus.STARTED);
         transactionRepository.save(transaction);
 
         //step 2-3 should be handled together
@@ -79,17 +94,17 @@ public class TransactionService {
         // Step 2 Update balance1
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
-        transaction.setStatus("A1_REMOVED");
+        transaction.setStatus(TransactionStatus.A_1_REMOVED);
         transactionRepository.save(transaction);
 
         // Step 3 Update balance2
         toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
         accountRepository.save(toAccount);
-        transaction.setStatus("A2_ADDED");
+        transaction.setStatus(TransactionStatus.A_2_ADDED);
         transactionRepository.save(transaction);
 
         // Step 4 Update transaction
-        transaction.setStatus("FINISHED_SUCCESS");
+        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
         return transactionRepository.save(transaction);
     }
 }

@@ -3,6 +3,7 @@ package eu.brevissimus.payment.controller;
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.dto.CardDto;
 import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.TransactionDto;
 import eu.brevissimus.payment.model.entity.Card;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.AccountService;
@@ -47,12 +48,12 @@ public class CardController {
                             description = "Retrieving all transaction of card by card number was successful")
             })
     @GetMapping("/{cardNumber}/transactions")
-    public List<Transaction> getAllTransactionsOfCard(
+    public List<TransactionDto> getAllTransactionsOfCard(
             @Parameter(description = "Card number", example = "12345678-12345678-12345678")
             @PathVariable String cardNumber) {
         List<Transaction> transactions = transactionService.getAllTransactionsByCardNumber(cardNumber);
         log.info("all transactions of card {} : {}", cardNumber, transactions );
-        return transactions;
+        return transactions.stream().map(TransactionDto::of).toList();
     }
 
     @Operation(
@@ -65,10 +66,10 @@ public class CardController {
                             description = "Card to Account money transfer was successful")
             })
     @PostMapping("/transfer")
-    public Transaction transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
+    public TransactionDto transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
         Transaction transaction = transactionService.transferCardMoney(transfer);
         log.info("money transfer transaction was done via card to account {} : {}", transfer, transaction );
-        return transaction;
+        return TransactionDto.of(transaction);
     }
 
     @Operation(

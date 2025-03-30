@@ -3,6 +3,7 @@ package eu.brevissimus.payment.controller;
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.dto.AccountDto;
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.TransactionDto;
 import eu.brevissimus.payment.model.entity.Account;
 import eu.brevissimus.payment.model.entity.Transaction;
 import eu.brevissimus.payment.service.AccountService;
@@ -45,11 +46,11 @@ public class AccountController {
                             description = "Retrieved all transactions of account was successful")
             })
     @GetMapping("/{accountNumber}/transactions")
-    public List<Transaction> getAllTransactionsOfAccount(@Parameter(description = "Account number", example = "12345678A")
+    public List<TransactionDto> getAllTransactionsOfAccount(@Parameter(description = "Account number", example = "12345678A")
                                                          @PathVariable String accountNumber) {
         List<Transaction> transactions = transactionService.getAllTransactionsByAccountNumber(accountNumber);
         log.info("all transactions of account {} : {}", accountNumber, transactions );
-        return transactions;
+        return transactions.stream().map(TransactionDto::of).toList();
     }
 
     @Operation(
@@ -62,10 +63,10 @@ public class AccountController {
                             description = "Account to Account money transfer was successful")
             })
     @PostMapping("/transfer")
-    public Transaction transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
+    public TransactionDto transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
         Transaction transaction = transactionService.transferAccountMoney(transfer);
-        log.info("money fransfer transaction was done via account to account {} : {}", transfer, transaction );
-        return transaction;
+        log.info("money transfer transaction was done via account to account {} : {}", transfer, transaction );
+        return TransactionDto.of(transaction);
     }
 
     @Operation(

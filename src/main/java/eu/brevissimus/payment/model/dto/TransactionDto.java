@@ -1,0 +1,26 @@
+package eu.brevissimus.payment.model.dto;
+
+import eu.brevissimus.payment.model.entity.Transaction;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public record TransactionDto(
+        @Schema(description = "Issue Date", example = "2025-02-12 12:30") LocalDateTime issueDate,
+        @Schema(description = "From Account Number", example = "12345678A") String fromAccountNumber,
+        @Schema(description = "To Account Number", example = "12345678B") String toAccountNumber,
+        @Schema(description = "Transfer amount", example = "1000") BigDecimal amount,
+        @Schema(description = "Transfer to currency", example = "CHF") String currency) {
+
+    public static TransactionDto of(Transaction transaction) {
+        return new TransactionDto(
+                transaction.getTransactionDate(),
+                transaction.getFromAccount().getAccountNumber(),
+                transaction.getToAccount().getAccountNumber(),
+                transaction.getAmount(),
+                transaction.getFromAccount().getCurrency()
+        );
+    }
+
+}

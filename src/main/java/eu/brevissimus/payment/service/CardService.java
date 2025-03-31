@@ -36,6 +36,7 @@ public class CardService {
         Account account = accountRepository.findByAccountNumber(cardDto.accountNumber())
                 .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + cardDto.accountNumber()));
         card.setAccount(account);
+        card.setActive(true);
         return cardRepository.save(card);
     }
 

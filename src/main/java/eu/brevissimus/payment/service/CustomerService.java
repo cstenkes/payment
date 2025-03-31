@@ -21,6 +21,7 @@ public class CustomerService {
         customer.setFirstName(customerDto.firstName());
         customer.setLastName(customerDto.lastName());
         customer.setAddress(customerDto.address());
+        customer.setActive(true);
         return customerRepository.save(customer);
     }
 

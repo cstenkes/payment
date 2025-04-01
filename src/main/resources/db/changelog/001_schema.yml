@@ -104,10 +104,6 @@ databaseChangeLog:
                     nullable: false
                   remarks: customer of the account
               - column:
-                  name: card_id
-                  type: BIGINT
-                  remarks: card for the account
-              - column:
                   name: active
                   type: BOOLEAN
                   defaultValueBoolean: true
@@ -324,21 +320,6 @@ databaseChangeLog:
       id: 7
       author: Csaba Tenkes
       changes:
-        - addForeignKeyConstraint:
-            constraintName: account_card_id_fkey
-            baseColumnNames: card_id
-            baseTableName: account
-            deferrable: false
-            initiallyDeferred: false
-            onDelete: NO ACTION
-            onUpdate: NO ACTION
-            referencedColumnNames: id
-            referencedTableName: card
-            validate: true
-  - changeSet:
-      id: 8
-      author: Csaba Tenkes
-      changes:
         - addUniqueConstraint:
             constraintName: customer_first_name_last_name_unique
             columnNames: first_name, last_name
@@ -346,7 +327,7 @@ databaseChangeLog:
             validate: true
 # Works only in liquibase Pro, license is needed
 #  - changeSet:
-#      id: 9
+#      id: 8
 #      author: Csaba Tenkes
 #      changes:
 #        - addCheckConstraint:

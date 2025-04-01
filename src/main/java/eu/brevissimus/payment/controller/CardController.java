@@ -1,5 +1,6 @@
 package eu.brevissimus.payment.controller;
 
+import eu.brevissimus.payment.kafkaservice.PublishMessageService;
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.dto.CardDto;
 import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
@@ -37,6 +38,8 @@ public class CardController {
     private final TransactionService transactionService;
     private final AccountService accountService;
     private final CardService cardService;
+    private final PublishMessageService publishMessageService;
+
 
     @Operation(
             summary = "Get all transaction of card by card number",
@@ -66,10 +69,9 @@ public class CardController {
                             description = "Card to Account money transfer was successful")
             })
     @PostMapping("/transfer")
-    public TransactionDto transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
-        Transaction transaction = transactionService.transferCardMoney(transfer);
-        log.info("money transfer transaction was done via card to account {} : {}", transfer, transaction );
-        return TransactionDto.of(transaction);
+    public void transferMoneyByCardToAccount(@RequestBody CardMoneyTransferDto transfer) {
+        publishMessageService.sendCardMoneyTransferStartMessage(transfer);
+        log.info("money transfer transaction was done via card to account {} ", transfer);
     }
 
     @Operation(
@@ -90,7 +92,7 @@ public class CardController {
         return accountBalanceDto;
     }
 
-    // trivial controller methods:
+    // CRUD write controller methods:
 
     @Operation(
             summary = "Card creation for an existing customer for a given account",

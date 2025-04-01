@@ -28,6 +28,8 @@ spring:
   output:
     ansi:
       enabled: always
+  kafka:
+    bootstrap-servers: localhost:29092 # payment running from container the config: kafka:9092
 springdoc:
   default-produces-media-type: application/json
   swagger-ui:

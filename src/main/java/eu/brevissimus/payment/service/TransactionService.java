@@ -10,6 +10,7 @@ import eu.brevissimus.payment.repository.AccountRepository;
 import eu.brevissimus.payment.repository.CardRepository;
 import eu.brevissimus.payment.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import static eu.brevissimus.payment.exception.ErrorCode.ACCOUNT_NOT_FOUND;
 import static eu.brevissimus.payment.exception.ErrorCode.CARD_NOT_FOUND;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TransactionService {
@@ -34,44 +36,38 @@ public class TransactionService {
     public List<Transaction> getAllTransactionsByCardNumber(String cardNumber)  {
         return transactionRepository.findTransactionsByCardNumber(cardNumber)
                 .orElseThrow(() -> new NotFoundException(CARD_NOT_FOUND, "Card number: " + cardNumber));
-
     }
 
     @Transactional
-    public Transaction transferAccountMoney(AccountMoneyTransferDto transfer) {
-        // Step 1 - id - autoincrement
-        Transaction transaction = new Transaction();
-        transaction.setTransactionDate(transfer.issueDate());
-
+    public Transaction transferAccountMoney1(AccountMoneyTransferDto transfer) {
+        // Step 1a - id - autoincrement
+        // preparation:
         Account fromAccount = accountRepository.findByAccountNumber(transfer.fromAccountNumber())
                 .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + transfer.fromAccountNumber()));
 
         Account toAccount = accountRepository.findByAccountNumber(transfer.toAccountNumber())
                 .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + transfer.toAccountNumber()));
 
+        // Step 1b
+        Transaction transaction = new Transaction();
+        transaction.setTransactionDate(transfer.issueDate());
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus(TransactionStatus.STARTED);
-        transactionRepository.save(transaction);
+        transaction.setStatus(TransactionStatus.STARTED.name());
+        transaction = transactionRepository.save(transaction);
+        log.info("Transaction: {}",transaction);
+        return transaction;
+    }
 
-        //step 2-3 should be handled together
-
-        // Step 2 Update balance1
-        fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
-        accountRepository.save(fromAccount);
-        transaction.setStatus(TransactionStatus.A_1_REMOVED);
-        transactionRepository.save(transaction);
-
-        // Step 3 Update balance2
-        toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
-        accountRepository.save(toAccount);
-        transaction.setStatus(TransactionStatus.A_2_ADDED);
-        transactionRepository.save(transaction);
-
-        // Step 4 Update transaction
-        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
-        return transactionRepository.save(transaction);
+    @Transactional
+    public void transferAccountMoney2(Long transactionId) {
+        // Step 2
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(()-> new NotFoundException(ACCOUNT_NOT_FOUND, "transaction Id: " + transactionId));
+        transaction.setStatus(TransactionStatus.FINISHED.name());
+        transaction = transactionRepository.save(transaction);
+        log.info("Saved transaction: {}", transaction);
     }
 
     @Transactional
@@ -86,25 +82,16 @@ public class TransactionService {
         transaction.setToAccount(fromAccount);
         transaction.setFromAccount(toAccount);
         transaction.setAmount(transfer.amount());
-        transaction.setStatus(TransactionStatus.STARTED);
+        transaction.setStatus(TransactionStatus.STARTED.name());
         transactionRepository.save(transaction);
 
-        //step 2-3 should be handled together
-
-        // Step 2 Update balance1
+        // Step 2 Update balances
         fromAccount.setBalance(fromAccount.getBalance().subtract(transfer.amount()));
         accountRepository.save(fromAccount);
-        transaction.setStatus(TransactionStatus.A_1_REMOVED);
-        transactionRepository.save(transaction);
-
-        // Step 3 Update balance2
         toAccount.setBalance(toAccount.getBalance().add(transfer.amount()));
         accountRepository.save(toAccount);
-        transaction.setStatus(TransactionStatus.A_2_ADDED);
-        transactionRepository.save(transaction);
-
-        // Step 4 Update transaction
-        transaction.setStatus(TransactionStatus.FINISHED_SUCCESS);
-        return transactionRepository.save(transaction);
+        transaction.setStatus(TransactionStatus.FINISHED.name());
+        transaction = transactionRepository.save(transaction);
+        return transaction;
     }
 }

@@ -1,5 +1,6 @@
 package eu.brevissimus.payment.controller;
 
+import eu.brevissimus.payment.kafkaservice.PublishMessageService;
 import eu.brevissimus.payment.model.dto.AccountBalanceDto;
 import eu.brevissimus.payment.model.dto.AccountDto;
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
@@ -35,6 +36,7 @@ public class AccountController {
 
     private final TransactionService transactionService;
     private final AccountService accountService;
+    private final PublishMessageService publishMessageService;
 
     @Operation(
             summary = "Get all transaction of account by account number",
@@ -63,10 +65,9 @@ public class AccountController {
                             description = "Account to Account money transfer was successful")
             })
     @PostMapping("/transfer")
-    public TransactionDto transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
-        Transaction transaction = transactionService.transferAccountMoney(transfer);
-        log.info("money transfer transaction was done via account to account {} : {}", transfer, transaction );
-        return TransactionDto.of(transaction);
+    public void transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
+        publishMessageService.sendTransactionStartMessage(transfer);
+        log.info("money transfer transaction was done via account to account {} ", transfer );
     }
 
     @Operation(

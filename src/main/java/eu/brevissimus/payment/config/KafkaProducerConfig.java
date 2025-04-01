@@ -1,6 +1,7 @@
 package eu.brevissimus.payment.config;
 
 import eu.brevissimus.payment.model.dto.AccountMoneyTransferDto;
+import eu.brevissimus.payment.model.dto.CardMoneyTransferDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -39,6 +40,7 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
+
     @Bean
     public ProducerFactory<String, Long> producerFactory3() {
         Map<String, Object> configProps = new HashMap<>();
@@ -47,6 +49,16 @@ public class KafkaProducerConfig {
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
+
+    @Bean
+    public ProducerFactory<String, CardMoneyTransferDto> producerFactory4() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
@@ -62,4 +74,10 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, Long> kafkaTemplate3() {
         return new KafkaTemplate<>(producerFactory3());
     }
+
+    @Bean
+    public KafkaTemplate<String, CardMoneyTransferDto> kafkaTemplate4() {
+        return new KafkaTemplate<>(producerFactory4());
+    }
+
 }

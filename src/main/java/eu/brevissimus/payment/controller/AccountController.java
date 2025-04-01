@@ -66,7 +66,7 @@ public class AccountController {
             })
     @PostMapping("/transfer")
     public void transferMoneyByAccountToAccount(@RequestBody AccountMoneyTransferDto transfer) {
-        publishMessageService.sendTransactionStartMessage(transfer);
+        publishMessageService.sendAccountMoneyTransferStartMessage(transfer);
         log.info("money transfer transaction was done via account to account {} ", transfer );
     }
 
@@ -87,7 +87,7 @@ public class AccountController {
         return accountBalanceDto;
     }
 
-    // trivial controller methods:
+    // CRUD write controller methods:
 
     @Operation(
             summary = "Account creation for an existing customer",

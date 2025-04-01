@@ -53,7 +53,7 @@ public class CustomerController {
         return accountBalancesDto;
     }
 
-    // trivial controller methods:
+    // CRUD write controller methods:
 
     @Operation(
             summary = "Customer creation",

@@ -56,8 +56,7 @@ public class Account extends Auditable {
 
   @ToString.Exclude
   @JsonIgnore
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "card_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "account")
   private Card card;
 
   @ToString.Exclude

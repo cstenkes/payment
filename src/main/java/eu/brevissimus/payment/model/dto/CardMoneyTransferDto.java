@@ -16,7 +16,7 @@ public record CardMoneyTransferDto(
         LocalDateTime issueDate,
         @NotBlank
         @Size(max = 50)
-        @Schema(description = "From Card Number", requiredMode = REQUIRED, example = "12345678A")
+        @Schema(description = "From Card Number", requiredMode = REQUIRED, example = "12346778-12367678-12345678")
         String fromCardNumber,
         @NotBlank
         @Size(max = 50)

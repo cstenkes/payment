@@ -10,6 +10,11 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
+import static eu.brevissimus.payment.kafkaservice.TransactionTopics.ACCOUNT_TRANSACTION_START;
+import static eu.brevissimus.payment.kafkaservice.TransactionTopics.ACCOUNT_TRANSACTION_FINISH;
+import static eu.brevissimus.payment.kafkaservice.TransactionTopics.CARD_TRANSACTION_START;
+import static eu.brevissimus.payment.kafkaservice.TransactionTopics.CARD_TRANSACTION_FINISH;
+
 @Configuration
 public class KafkaTopicConfig {
 
@@ -24,13 +29,23 @@ public class KafkaTopicConfig {
     }
 
     @Bean
-    public NewTopic topicStart() { // start - create record on transaction
-        return new NewTopic("transaction_start", 1, (short) 1);
+    public NewTopic topicStart1() { // start - create record on transaction
+        return new NewTopic(ACCOUNT_TRANSACTION_START, 1, (short) 1);
     }
 
     @Bean
-    public NewTopic topicFinish() { // operation on transaction (update balances of accounts and update transaction table)
-        return new NewTopic("transaction_finish", 1, (short) 1);
+    public NewTopic topicStart2() { // start - create record on transaction
+        return new NewTopic(ACCOUNT_TRANSACTION_FINISH, 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic topicFinish1() { // operation on transaction (update balances of accounts and update transaction table)
+        return new NewTopic(CARD_TRANSACTION_START, 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic topicFinish2() { // operation on transaction (update balances of accounts and update transaction table)
+        return new NewTopic(CARD_TRANSACTION_FINISH, 1, (short) 1);
     }
 
 }

@@ -8,10 +8,10 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
             sql:
-              insert into customer(id, last_name, first_name, address) values (1, 'Eva', 'Botelli', 'Eigerplatz 5. 11. Stock 3007 Bern');
-              insert into customer(id, last_name, first_name, address) values (2, 'Thomas', 'Andersen', 'Eigerplatz 5. 13. Stock 3007 Bern');
-              insert into customer(id, last_name, first_name, address) values (3, 'Lars', 'Ulrich', 'Eigerplatz 5. 16. Stock 3007 Bern');
-              insert into customer(id, last_name, first_name, address) values (4, 'Peter', 'Gabriel', 'Eigerplatz 5. 17. Stock 3007 Bern');
+              insert into customer(id, first_name, last_name, address) values (1, 'Eva', 'Botelli', 'Eigerplatz 5. 11. Stock 3007 Bern');
+              insert into customer(id, first_name, last_name, address) values (2, 'Thomas', 'Andersen', 'Eigerplatz 5. 13. Stock 3007 Bern');
+              insert into customer(id, first_name, last_name, address) values (3, 'Lars', 'Ulrich', 'Eigerplatz 5. 16. Stock 3007 Bern');
+              insert into customer(id, first_name, last_name, address) values (4, 'Peter', 'Gabriel', 'Eigerplatz 5. 17. Stock 3007 Bern');
 
               insert into account(id, account_number, account_type, currency, balance, customer_id) values (1, '12345678A', 'debit', 'EUR',500, 1);
               insert into account(id, account_number, account_type, currency, balance, customer_id) values (2, '12344678A', 'credit', 'CHF',500,2);

@@ -160,8 +160,8 @@ databaseChangeLog:
                   remarks: amount
               - column:
                   name: status
-                  type: VARCHAR(10)
-                  remarks: Status of the transaction - STARTED,A1_REMOVED, A2_ADDED, FAILED, FINISHED_SUCCESS
+                  type: VARCHAR(13)
+                  remarks: Status of the transaction - STARTED, ADDED_REMOVED, FAILED, FINISHED
               - column:
                   name: created_date
                   type: TIMESTAMP

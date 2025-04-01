@@ -1,0 +1,13 @@
+### GET request to example server
+POST http://localhost:8080/payment/api/v1/accounts/transfer
+Content-Type: application/json
+
+{
+  "issueDate": "2025-03-31T09:18:52.1817963",
+  "fromAccountNumber": "12345678A",
+  "toAccountNumber": "12355778B",
+  "amount": 50,
+  "currency": "EUR"
+}
+
+### return : empty

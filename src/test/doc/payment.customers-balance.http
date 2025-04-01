@@ -1,0 +1,29 @@
+### GET request
+GET http://localhost:8080/payment/api/v1/customers/balance?fname=aa&lname=bbb
+###
+HTTP/1.1 404
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 01 Apr 2025 22:43:44 GMT
+
+{
+  "errorCode": "CUSTOMER_NOT_FOUND",
+  "message": "firstName: aa, lastName:bbb",
+  "timestamp": "2025-04-02T00:43:44.2774485"
+}
+### GET request
+GET http://localhost:8080/payment/api/v1/customers/balance?fname=Eva&lname=Botelli
+###
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 01 Apr 2025 22:46:21 GMT
+
+[
+  {
+    "issueDate": "2025-04-02T00:46:20.9974612",
+    "accountNumber": "12345678A",
+    "balance": 550,
+    "currency": "EUR"
+  }
+]

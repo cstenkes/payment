@@ -60,6 +60,7 @@ public class AccountService {
         .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "firstName: " + accountDto.firstName() + ", lastName:"+accountDto.lastName()));
 
         account.setCustomer(customer);
+        account.setBalance(accountDto.balance());
         account.setActive(true);
         return accountRepository.save(account);
     }

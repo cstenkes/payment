@@ -20,8 +20,16 @@ class RestExceptionHandler {
   @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ErrorDto notFoundExceptionHandler(NotFoundException ex) {
-    log.error("Error occured: {0}", ex);
+    log.error("Error occurred: {}", ex);
     return new ErrorDto(ex.getErrorCode(), ex.getMessage(), LocalDateTime.now()); //timeService.now()
   }
+
+  @ExceptionHandler(FoundException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public ErrorDto foundExceptionHandler(FoundException ex) {
+    log.error("Error occurred: {}", ex);
+    return new ErrorDto(ex.getErrorCode(), ex.getMessage(), LocalDateTime.now()); //timeService.now()
+  }
+
 
 }

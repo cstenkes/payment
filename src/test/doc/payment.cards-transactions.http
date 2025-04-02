@@ -1,4 +1,4 @@
-### GET request to example server
+### GET request
 GET http://localhost:8080/payment/api/v1/cards/12345678-12345678-12345678/transactions
 ###
 HTTP/1.1 200

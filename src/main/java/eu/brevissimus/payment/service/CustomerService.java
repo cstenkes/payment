@@ -1,5 +1,6 @@
 package eu.brevissimus.payment.service;
 
+import eu.brevissimus.payment.exception.FoundException;
 import eu.brevissimus.payment.exception.NotFoundException;
 import eu.brevissimus.payment.model.dto.CustomerDto;
 import eu.brevissimus.payment.model.entity.Customer;
@@ -8,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static eu.brevissimus.payment.exception.ErrorCode.CUSTOMER_FOUND;
 import static eu.brevissimus.payment.exception.ErrorCode.CUSTOMER_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -17,6 +21,12 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(CustomerDto customerDto) {
+        Optional<Customer> customerCheck = customerRepository.findByFirstNameAndLastName(customerDto.firstName(),customerDto.lastName());
+        if (customerCheck.isPresent()) {
+            throw new FoundException(CUSTOMER_FOUND, "With firstName: " + customerDto.firstName() + ", lastName:" + customerDto.lastName() + "a customer has already existed.");
+        }
+
+
         Customer customer = new Customer();
         customer.setFirstName(customerDto.firstName());
         customer.setLastName(customerDto.lastName());

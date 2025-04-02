@@ -1,4 +1,4 @@
-### GET request to example server
+### GET request
 GET http://localhost:8080/payment/api/v1/accounts/12345678A/balance
 ###
 HTTP/1.1 200

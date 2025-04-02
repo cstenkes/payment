@@ -1,0 +1,28 @@
+### POST request
+POST http://localhost:8080/payment/api/v1/cards/
+Content-Type: application/json
+
+{
+  "accountNumber": "12355888B",
+  "firstName": "John",
+  "lastName": "Lenon",
+  "cardNumber": "12345555-00123400-67534532",
+  "ccvCode": "987",
+  "expiry": "2028-10-01"
+}
+
+### return :
+
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 02 Apr 2025 00:09:05 GMT
+
+{
+  "id": 1000,
+  "cardNumber": "12345555-00123400-67534532",
+  "ccvCode": 987,
+  "expiry": "2028-10-01",
+  "active": true
+}
+

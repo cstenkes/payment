@@ -1,10 +1,22 @@
-package eu.brevissimus.payment.model;
+package eu.brevissimus.payment.model.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.math.BigInteger;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +32,7 @@ public class Transaction extends Auditable {
   private Long id;
 
   @Column(name = "transaction_date")
-  private Date transactionDate;
+  private LocalDateTime transactionDate;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "from_account_id", referencedColumnName = "id")
@@ -31,7 +43,7 @@ public class Transaction extends Auditable {
   private Account toAccount;
 
   @Column(name = "amount")
-  private BigInteger amount;
+  private BigDecimal amount;
 
   @Column(name = "status")
   private String status;

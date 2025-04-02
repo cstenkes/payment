@@ -5,12 +5,12 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: customer
-            remarks: Benefit product details
+            remarks: Customer
             columns:
               - column:
                   name: id
                   type: BIGINT
-                  remarks: own id of customer
+                  remarks: customer id
                   autoIncrement: true
                   startWith: 1000
                   constraints:
@@ -55,6 +55,11 @@ databaseChangeLog:
                   type: VARCHAR(10)
                   defaultValue: SYSTEM
                   remarks: modified user
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  remarks: active
         - createTable:
             tableName: account
             remarks: Account
@@ -68,7 +73,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: account_pkey
-                  remarks: Primary key of Account
+                  remarks: Account id
               - column:
                   name: account_number
                   type: VARCHAR(255)
@@ -81,17 +86,17 @@ databaseChangeLog:
                   remarks: account type
               - column:
                   name: currency
-                  type: VARCHAR(25)
+                  type: VARCHAR(3)
                   constraints:
                     nullable: false
                   remarks: currency
               - column:
                   name: balance
-                  type: BIGINT
+                  type: NUMERIC
                   constraints:
                     nullable: false
                   remarks: balance
-                  defaultValue: 0
+                  defaultValueNumeric: "0"
               - column:
                   name: customer_id
                   type: BIGINT
@@ -99,9 +104,10 @@ databaseChangeLog:
                     nullable: false
                   remarks: customer of the account
               - column:
-                  name: card_id
-                  type: BIGINT
-                  remarks: card for the account
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  remarks: active
               - column:
                   name: created_date
                   type: TIMESTAMP
@@ -135,7 +141,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: transaction_pkey
-                  remarks: Benefit exchange id
+                  remarks: Transaction id
               - column:
                   name: transaction_date
                   type: Date
@@ -150,12 +156,12 @@ databaseChangeLog:
                   remarks: to account
               - column:
                   name: amount
-                  type: BIGINT
+                  type: NUMERIC
                   remarks: amount
               - column:
                   name: status
-                  type: VARCHAR(10)
-                  remarks: Status of the transaction - STARTED,A2_ADDED, A1_REMOVED. FAILED, SUCCESS
+                  type: VARCHAR(13)
+                  remarks: Status of the transaction - STARTED, ADDED_REMOVED, FAILED, FINISHED
               - column:
                   name: created_date
                   type: TIMESTAMP
@@ -189,7 +195,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: card_pkey
-                  remarks: Benefit exchange id
+                  remarks: card id
               - column:
                   name: card_number
                   type: VARCHAR(255)
@@ -197,7 +203,7 @@ databaseChangeLog:
               - column:
                   name: expiration_date
                   type: DATE
-                  remarks: Discounted sale price
+                  remarks: Expiration date
               - column:
                   name: ccv_code
                   type: integer
@@ -205,7 +211,12 @@ databaseChangeLog:
               - column:
                   name: account_id
                   type: BIGINT
-                  remarks: account of the card
+                  remarks: Account of the card
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  remarks: active
               - column:
                   name: customer_id
                   type: BIGINT
@@ -233,84 +244,98 @@ databaseChangeLog:
   - changeSet:
       id: 2
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: transaction_from_account_id_fkey
-        baseColumnNames: from_account_id
-        baseTableName: transaction
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: transaction_from_account_id_fkey
+            baseColumnNames: from_account_id
+            baseTableName: transaction
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 3
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: transaction_to_account_id_fkey
-        baseColumnNames: to_account_id
-        baseTableName: transaction
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: transaction_to_account_id_fkey
+            baseColumnNames: to_account_id
+            baseTableName: transaction
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 4
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: card_account_id_fkey
-        baseColumnNames: account_id
-        baseTableName: card
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: card_account_id_fkey
+            baseColumnNames: account_id
+            baseTableName: card
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
   - changeSet:
       id: 5
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: card_customer_id_fkey
-        baseColumnNames: customer_id
-        baseTableName: card
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: customer
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: card_customer_id_fkey
+            baseColumnNames: customer_id
+            baseTableName: card
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: customer
+            validate: true
   - changeSet:
       id: 6
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: account_customer_id_fkey
-        baseColumnNames: customer_id
-        baseTableName: account
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: account
-        validate: true
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: account_customer_id_fkey
+            baseColumnNames: customer_id
+            baseTableName: account
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
+        - addUniqueConstraint:
+            constraintName: account_account_number_unique
+            columnNames: account_number
+            tableName: account
   - changeSet:
       id: 7
       author: Csaba Tenkes
-      addForeignKeyConstraint:
-        constraintName: account_card_id_fkey
-        baseColumnNames: card_id
-        baseTableName: account
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: NO ACTION
-        onUpdate: NO ACTION
-        referencedColumnNames: id
-        referencedTableName: card
-        validate: true
+      changes:
+        - addUniqueConstraint:
+            constraintName: customer_first_name_last_name_unique
+            columnNames: first_name, last_name
+            tableName: customer
+            validate: true
+# Works only in liquibase Pro, license is needed
+#  - changeSet:
+#      id: 9
+#      author: Csaba Tenkes
+#      changes:
+#        - addCheckConstraint:
+#            constraintName: transaction_status_check
+#            constraintBody: (status = 'STARTED' OR status = 'A1_REMOVED' or status = 'A2_ADDED' or status='FAILED' or status='FINISHED_SUCCESS')
+#            tableName: transaction
+#            validate: true

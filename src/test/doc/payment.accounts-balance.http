@@ -1,0 +1,14 @@
+### GET request
+GET http://localhost:8080/payment/api/v1/accounts/12345678A/balance
+###
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 01 Apr 2025 22:36:13 GMT
+
+{
+  "issueDate": "2025-04-02T00:36:13.0513381",
+  "accountNumber": "12345678A",
+  "balance": 550,
+  "currency": "EUR"
+}

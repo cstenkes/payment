@@ -1,0 +1,35 @@
+### PUT request
+PUT http://localhost:8080/payment/api/v1/accounts/
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Lenon",
+  "accountNumber": "12355888B",
+  "accountType": "debit",
+  "currency": "EUR",
+  "balance": 125.5
+}
+
+### return :
+
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 02 Apr 2025 09:15:19 GMT
+
+{
+  "id": 6,
+  "accountNumber": "12355888B",
+  "accountType": "debit",
+  "currency": "EUR",
+  "balance": 125.5,
+  "active": true,
+  "customer": {
+    "id": 5,
+    "lastName": "Lenon",
+    "firstName": "John",
+    "address": "5th avenue 1234 NJ",
+    "active": true
+  }
+}

@@ -1,14 +1,14 @@
-### POST request
-POST http://localhost:8080/payment/api/v1/accounts/
+### PUT request
+PUT http://localhost:8080/payment/api/v1/accounts/
 Content-Type: application/json
 
 {
   "firstName": "John",
   "lastName": "Lenon",
-  "accountNumber": "12355899B",
-  "accountType": "credit",
-  "currency": "USD",
-  "balance": 0
+  "accountNumber": "12355888B",
+  "accountType": "debit",
+  "currency": "EUR",
+  "balance": 125.5
 }
 
 ### return :
@@ -16,14 +16,14 @@ Content-Type: application/json
 HTTP/1.1 200
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 02 Apr 2025 08:23:30 GMT
+Date: Wed, 02 Apr 2025 09:15:19 GMT
 
 {
-  "id": 1004,
-  "accountNumber": "12355899B",
-  "accountType": "credit",
-  "currency": "USD",
-  "balance": 0,
+  "id": 6,
+  "accountNumber": "12355888B",
+  "accountType": "debit",
+  "currency": "EUR",
+  "balance": 125.5,
   "active": true,
   "customer": {
     "id": 5,

@@ -60,16 +60,18 @@ public class AccountService {
         .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "firstName: " + accountDto.firstName() + ", lastName:"+accountDto.lastName()));
 
         account.setCustomer(customer);
+        account.setBalance(accountDto.balance());
         account.setActive(true);
         return accountRepository.save(account);
     }
 
-    // can be modified account type and currency only
+    // can be modified account type,currency, balance only
     public Account modfiyAccount(AccountDto accountDto) {
         Account account = accountRepository.findByAccountNumber(accountDto.accountNumber())
                 .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + accountDto.accountNumber()));
         account.setAccountType(accountDto.accountType());
         account.setCurrency(accountDto.currency());
+        account.setBalance(accountDto.balance());
         return accountRepository.save(account);
     }
 

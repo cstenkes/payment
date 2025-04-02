@@ -1,0 +1,31 @@
+### GET request
+GET http://localhost:8080/payment/api/v1/cards/12345678-12345678-12345678/transactions
+###
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 01 Apr 2025 22:39:57 GMT
+
+[
+  {
+    "issueDate": "2025-03-04T00:00:00",
+    "fromAccountNumber": "12345678A",
+    "toAccountNumber": "12355778B",
+    "amount": 200,
+    "currency": "EUR"
+  },
+  {
+    "issueDate": "2025-03-15T00:00:00",
+    "fromAccountNumber": "12355778B",
+    "toAccountNumber": "12345678A",
+    "amount": 100,
+    "currency": "EUR"
+  },
+  {
+    "issueDate": "2025-03-31T00:00:00",
+    "fromAccountNumber": "12355778B",
+    "toAccountNumber": "12345678A",
+    "amount": 50,
+    "currency": "EUR"
+  }
+]

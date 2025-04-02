@@ -1,5 +1,6 @@
 package eu.brevissimus.payment.service;
 
+import eu.brevissimus.payment.exception.FoundException;
 import eu.brevissimus.payment.exception.NotFoundException;
 import eu.brevissimus.payment.model.dto.CardDto;
 import eu.brevissimus.payment.model.entity.Account;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static eu.brevissimus.payment.exception.ErrorCode.ACCOUNT_NOT_FOUND;
+import static eu.brevissimus.payment.exception.ErrorCode.CARD_FOUND;
 import static eu.brevissimus.payment.exception.ErrorCode.CARD_NOT_FOUND;
 import static eu.brevissimus.payment.exception.ErrorCode.CUSTOMER_NOT_FOUND;
 
@@ -35,6 +37,9 @@ public class CardService {
         card.setCustomer(customer);
         Account account = accountRepository.findByAccountNumber(cardDto.accountNumber())
                 .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND, "Account number: " + cardDto.accountNumber()));
+        if (account.getCard() != null) {
+            throw new FoundException(CARD_FOUND, "Account number " + cardDto.accountNumber() +" has a card already: " + account.getCard().getCardNumber() + ".");
+        }
         card.setAccount(account);
         card.setActive(true);
         return cardRepository.save(card);

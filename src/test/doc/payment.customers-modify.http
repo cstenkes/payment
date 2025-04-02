@@ -1,0 +1,26 @@
+### PUT request
+PUT http://localhost:8080/payment/api/v1/customers/
+Content-Type: application/json
+
+{
+  "address": "Eigerplatz 9. 19. Stock 5007 Brno",
+  "firstName": "Peter",
+  "lastName": "Gabriel"
+}
+
+
+### return :
+
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 02 Apr 2025 09:30:26 GMT
+
+{
+  "id": 4,
+  "lastName": "Gabriel",
+  "firstName": "Peter",
+  "address": "Eigerplatz 9. 19. Stock 5007 Brno",
+  "active": true
+}
+

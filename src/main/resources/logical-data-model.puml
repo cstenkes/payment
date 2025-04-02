@@ -35,6 +35,8 @@ entity "Card" as card {
   --
   *ccvCode : Integer
   --
+  *accountId : BigInt
+  --
   *active : Boolean
 }
 
@@ -43,9 +45,9 @@ entity "Transaction" as transaction {
   --
   *transactionDate : Date
   --
-  *fromAccount : BigInt
+  *fromAccountId : BigInt
   --
-  *toAccount : Bigint
+  *toAccountId : Bigint
   --
   *amount : BigDecimal
   --

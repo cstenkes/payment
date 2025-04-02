@@ -160,8 +160,8 @@ databaseChangeLog:
                   remarks: amount
               - column:
                   name: status
-                  type: VARCHAR(10)
-                  remarks: Status of the transaction - STARTED,A1_REMOVED, A2_ADDED, FAILED, FINISHED_SUCCESS
+                  type: VARCHAR(13)
+                  remarks: Status of the transaction - STARTED, ADDED_REMOVED, FAILED, FINISHED
               - column:
                   name: created_date
                   type: TIMESTAMP
@@ -316,6 +316,10 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: account
             validate: true
+        - addUniqueConstraint:
+            constraintName: account_account_number_unique
+            columnNames: account_number
+            tableName: account
   - changeSet:
       id: 7
       author: Csaba Tenkes
@@ -327,7 +331,7 @@ databaseChangeLog:
             validate: true
 # Works only in liquibase Pro, license is needed
 #  - changeSet:
-#      id: 8
+#      id: 9
 #      author: Csaba Tenkes
 #      changes:
 #        - addCheckConstraint:

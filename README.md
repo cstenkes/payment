@@ -55,3 +55,6 @@ http://localhost:8080/payment/api/v1/
 > kubectl apply -f k8s.yml
 
 todo: need to test this kuberenetes script, and impove it.
+
+# api call test case - for http clients like intellij http client
+> /src/test/doc/xxx*.https
